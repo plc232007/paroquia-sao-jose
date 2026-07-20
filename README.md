@@ -39,6 +39,14 @@ paroquia-sao-jose/
 - **Mobile**: menu hambúrguer em tela cheia com submenu expansível, grids que
   empilham e tipografia fluida com `clamp()`.
 
+## Publicação
+
+O site está publicado via GitHub Pages a partir do branch `main` deste repositório:
+**https://plc232007.github.io/paroquia-sao-jose/**
+
+Para atualizar o site no ar, basta commitar e dar `git push` — o Pages republica
+automaticamente em ~1 minuto.
+
 ## Conteúdo
 
 Todo o texto foi transcrito fielmente das páginas originais (extraído em 19/07/2026).
