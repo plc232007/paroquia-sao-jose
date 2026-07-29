@@ -364,6 +364,38 @@ body{animation:aparecerPagina .45s ease both}
 @keyframes aparecerPagina{from{opacity:0}to{opacity:1}}
 body.saindo{opacity:0;transition:opacity .18s ease}
 
+/* ==========================================================
+   Paleta da devoção — São José das Mãos Piedosas
+   Escopo: body.tema-maos-piedosas, só a página da devoção. Os tokens
+   globais seguem intactos: o azul continua sendo a cor da paróquia,
+   o lilás/terracota é a sub-identidade desta devoção.
+   ========================================================== */
+.tema-maos-piedosas{
+  --lilas:#8a7ba3;             /* túnica da imagem */
+  --dourado-manto:#c9a227;     /* bordado do manto (mesmo valor de --dourado) */
+  --terracota-tunica:#b98a5a;  /* forro terracota do manto */
+  --lirio-branco:#fbf9f2;      /* branco quente dos lírios */
+  /* versões escurecidas para texto pequeno — as de cima não têm contraste AA sobre fundo claro */
+  --lilas-profundo:#5f5178;
+  --terracota-profunda:#8a5f38;
+}
+/* Hero: véu lilás/terracota no lugar do azul institucional */
+.tema-maos-piedosas .pagina-hero{color:var(--lirio-branco)}
+.tema-maos-piedosas .pagina-hero .veu{background:linear-gradient(180deg,rgba(95,81,120,.88),rgba(138,95,56,.82))}
+.tema-maos-piedosas .pagina-hero .selo::before,
+.tema-maos-piedosas .pagina-hero .selo::after{background:var(--dourado-manto)}
+/* Destaques de texto */
+.tema-maos-piedosas .titulo-secao .rotulo{color:var(--lilas-profundo)}
+.tema-maos-piedosas .titulo-secao .traco{background:linear-gradient(90deg,var(--lilas),var(--terracota-tunica))}
+.tema-maos-piedosas .tabela-horarios .cabecalho{background:linear-gradient(135deg,var(--lilas-profundo),var(--lilas))}
+.tema-maos-piedosas .linha-h .hora{color:var(--terracota-profunda)}
+/* No tema escuro os tons de texto precisam clarear, não escurecer */
+:root[data-tema="escuro"] .tema-maos-piedosas{
+  --lilas-profundo:#c3b4dd;
+  --terracota-profunda:#d8a878;
+}
+:root[data-tema="escuro"] .tema-maos-piedosas .tabela-horarios .cabecalho{background:linear-gradient(135deg,#4a3f63,var(--lilas))}
+
 /* Cartão "próxima missa" do hero */
 .proxima-missa{margin-top:2.4rem;display:inline-flex;flex-direction:column;gap:.15rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(8px);border-radius:14px;padding:.95rem 2.2rem}
 .proxima-missa .rotulo-pm{font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;opacity:.85}
