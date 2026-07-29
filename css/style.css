@@ -96,6 +96,13 @@ section{padding:5.5rem 1.5rem}
 .titulo-secao .traco{width:56px;height:3px;background:var(--dourado);margin:1.1rem auto 0;border-radius:2px}
 .titulo-secao.esq{text-align:left}
 .titulo-secao.esq .traco{margin-left:0}
+/* Divisor com os símbolos da devoção — a mão estendida (acolhida) e o lírio
+   (fidelidade), alternados entre as seções da home. O resto do site
+   continua com .traco.                                                      */
+.traco-simbolo{display:flex;align-items:center;justify-content:center;gap:.9rem;margin:1.1rem auto 0}
+.traco-simbolo::before,.traco-simbolo::after{content:'';width:46px;height:1px;background:var(--dourado)}
+.traco-simbolo svg{width:40px;height:40px;flex-shrink:0;fill:none;stroke:var(--dourado);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.titulo-secao.esq .traco-simbolo{justify-content:flex-start}
 .fundo-cinza{background:var(--cinza-claro)}
 .fundo-degrade{background:linear-gradient(180deg,var(--cinza-claro),var(--branco))}
 
