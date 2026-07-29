@@ -19,6 +19,7 @@
   --nota-borda:#f0e6c8;
   --serif:'Playfair Display',Georgia,serif;
   --sans:'Roboto',system-ui,-apple-system,sans-serif;
+  --azul-escuro-rgb:35,46,106;   /* mesmo azul, em canais, para uso com alpha */
   --foco:#232e6a;      /* anel de foco escuro — aparece sobre fundo claro */
   --foco-halo:#ffffff; /* halo claro entre o elemento e o anel — aparece sobre fundo escuro */
 }
@@ -31,10 +32,10 @@ a{color:var(--azul);text-decoration:none}
 /* ---------- Header ---------- */
 header.topo{
   position:fixed;top:0;left:0;right:0;z-index:100;
-  background:rgba(35,46,106,.92);backdrop-filter:blur(10px);
+  background:rgba(var(--azul-escuro-rgb),.92);backdrop-filter:blur(10px);
   transition:background .3s,box-shadow .3s;
 }
-header.topo.scrolled{background:rgba(35,46,106,.98);box-shadow:0 4px 24px rgba(0,0,0,.25)}
+header.topo.scrolled{background:rgba(var(--azul-escuro-rgb),.98);box-shadow:0 4px 24px rgba(0,0,0,.25)}
 .nav-wrap{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.6rem 1.25rem}
 .brand{display:flex;align-items:center;gap:.75rem;color:#fff}
 .brand img{width:46px;height:46px;object-fit:contain;border-radius:50%;background:#fff;padding:3px;transition:transform .4s}
@@ -61,7 +62,7 @@ nav.menu .submenu a:hover{background:var(--cinza-claro);color:var(--azul)}
 /* ---------- Heros ---------- */
 .hero{min-height:92vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;color:#fff;padding:7rem 1.5rem 5rem;overflow:hidden}
 .hero-bg{position:absolute;inset:-12% 0;background:center/cover no-repeat;will-change:transform;z-index:-2}
-.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(35,46,106,.82) 0%,rgba(35,46,106,.6) 50%,rgba(24,32,74,.9) 100%);z-index:-1}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(var(--azul-escuro-rgb),.82) 0%,rgba(var(--azul-escuro-rgb),.6) 50%,rgba(24,32,74,.9) 100%);z-index:-1}
 .hero-conteudo{max-width:840px}
 .selo{display:inline-flex;align-items:center;gap:.6rem;font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;font-weight:500}
 .selo::before,.selo::after{content:'';width:36px;height:1px;background:var(--dourado)}
@@ -84,7 +85,7 @@ nav.menu .submenu a:hover{background:var(--cinza-claro);color:var(--azul)}
 .pagina-hero p.sub{max-width:640px;margin:0 auto;font-weight:300;opacity:0;animation:subir .9s .5s forwards}
 .pagina-hero.com-foto{background:none}
 .pagina-hero .foto-fundo{position:absolute;inset:0;background:center/cover no-repeat;z-index:-2}
-.pagina-hero .veu{position:absolute;inset:0;background:linear-gradient(180deg,rgba(35,46,106,.88),rgba(26,35,82,.82));z-index:-1}
+.pagina-hero .veu{position:absolute;inset:0;background:linear-gradient(180deg,rgba(var(--azul-escuro-rgb),.88),rgba(26,35,82,.82));z-index:-1}
 
 /* ---------- Seções ---------- */
 section{padding:5.5rem 1.5rem}
@@ -168,7 +169,7 @@ section{padding:5.5rem 1.5rem}
 
 /* ---------- Faixa de citação ---------- */
 .faixa{position:relative;color:#fff;text-align:center;padding:6.5rem 1.5rem;background:center/cover fixed no-repeat}
-.faixa::after{content:'';position:absolute;inset:0;background:rgba(35,46,106,.85)}
+.faixa::after{content:'';position:absolute;inset:0;background:rgba(var(--azul-escuro-rgb),.85)}
 .faixa .container{position:relative;z-index:1;max-width:780px}
 .faixa blockquote{font-family:var(--serif);font-size:clamp(1.3rem,3vw,1.9rem);font-style:italic;line-height:1.6}
 .faixa cite{display:block;margin-top:1.4rem;font-family:var(--sans);font-style:normal;font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;opacity:.85}
@@ -395,12 +396,12 @@ body.saindo{opacity:0;transition:opacity .18s ease}
   --terracota-tunica:#b98a5a;  /* forro terracota do manto */
   --lirio-branco:#fbf9f2;      /* branco quente dos lírios */
   /* versões escurecidas para texto pequeno — as de cima não têm contraste AA sobre fundo claro */
-  --lilas-profundo:#5f5178;
-  --terracota-profunda:#8a5f38;
+  --lilas-profundo:#5f5178;      --lilas-profundo-rgb:95,81,120;
+  --terracota-profunda:#8a5f38;  --terracota-profunda-rgb:138,95,56;
 }
 /* Hero: véu lilás/terracota no lugar do azul institucional */
 .tema-maos-piedosas .pagina-hero{color:var(--lirio-branco)}
-.tema-maos-piedosas .pagina-hero .veu{background:linear-gradient(180deg,rgba(95,81,120,.88),rgba(138,95,56,.82))}
+.tema-maos-piedosas .pagina-hero .veu{background:linear-gradient(180deg,rgba(var(--lilas-profundo-rgb),.88),rgba(var(--terracota-profunda-rgb),.82))}
 .tema-maos-piedosas .pagina-hero .selo::before,
 .tema-maos-piedosas .pagina-hero .selo::after{background:var(--dourado-manto)}
 /* Destaques de texto */
