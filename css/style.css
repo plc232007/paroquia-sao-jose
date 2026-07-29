@@ -102,7 +102,10 @@ section{padding:5.5rem 1.5rem}
 .fundo-degrade{background:linear-gradient(180deg,var(--cinza-claro),var(--branco))}
 
 /* Botões */
-.btn{display:inline-block;padding:.85rem 2rem;border-radius:999px;font-weight:500;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;transition:transform .3s,box-shadow .3s,background .3s;will-change:transform}
+/* Canto reto com um único canto cortado (14px, mesmo raio dos cards) — no
+   lugar do pill genérico. Raio assimétrico em vez de clip-path porque
+   clip-path recortaria também o outline de foco e as sombras do hover.     */
+.btn{display:inline-block;padding:.85rem 2rem;border-radius:0 0 14px 0;font-weight:500;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;transition:transform .3s,box-shadow .3s,background .3s;will-change:transform}
 .btn-solido{background:var(--dourado);color:#1d1503}
 .btn-solido:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(201,162,39,.4)}
 .btn-contorno{border:1.5px solid rgba(255,255,255,.65);color:#fff}
