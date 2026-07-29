@@ -217,6 +217,7 @@ section{padding:5.5rem 1.5rem}
    Anel duplo: halo claro colado no elemento + anel escuro por fora.
    Sobre fundo claro enxerga-se o anel escuro; sobre fundo escuro (hero,
    cabeçalho, menu mobile) enxerga-se o halo. Funciona nos dois temas.       */
+a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visible,
 .btn:focus-visible,
 nav.menu a:focus-visible,
 .card:focus-visible{
@@ -224,6 +225,8 @@ nav.menu a:focus-visible,
   outline-offset:3px;
   box-shadow:0 0 0 3px var(--foco-halo);
 }
+/* O acordeão tem overflow:hidden, que cortaria um anel externo — aqui ele vai para dentro */
+.acordeao summary:focus-visible{outline-offset:-4px;box-shadow:none}
 /* Combinações hover+foco: repetem a sombra própria do hover para não perdê-la */
 .btn-solido:hover:focus-visible{box-shadow:0 0 0 3px var(--foco-halo),0 12px 28px rgba(201,162,39,.4)}
 .btn-azul:hover:focus-visible{box-shadow:0 0 0 3px var(--foco-halo),0 12px 28px rgba(1,112,185,.35)}
@@ -336,6 +339,9 @@ footer.rodape{background:var(--azul-escuro);color:#fff;padding:4rem 1.5rem 0}
   --hover-linha:#333c60;
   --nota-bg:#241f0e;
   --nota-borda:#4a3f1a;
+  /* no escuro o anel inverte: traço claro por fora, vão escuro por dentro */
+  --foco:#c9d3ff;
+  --foco-halo:#141a30;
 }
 :root[data-tema="escuro"] .tabela-horarios .cabecalho{background:linear-gradient(135deg,#2c3a85,#0170B9)}
 /* o traço do ícone precisa clarear no escuro — --azul-escuro somiria no fundo */
