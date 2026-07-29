@@ -321,15 +321,15 @@ footer.rodape{background:var(--azul-escuro);color:#fff;padding:4rem 1.5rem 0}
    Tema escuro
    ========================================================== */
 :root[data-tema="escuro"]{
-  --branco:#0e1326;
-  --cinza-claro:#141a30;
-  --borda:#2a3255;
+  --branco:#1a2038;
+  --cinza-claro:#222a45;
+  --borda:#39426b;
   --texto:#d9dcec;
   --texto-suave:#a9b0ca;
-  --superficie:#1a2140;
+  --superficie:#28304f;
   --titulo:#c9d3ff;
   --azul:#4da3e8;
-  --hover-linha:#20294d;
+  --hover-linha:#333c60;
   --nota-bg:#241f0e;
   --nota-borda:#4a3f1a;
 }
