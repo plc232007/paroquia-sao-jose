@@ -19,6 +19,8 @@
   --nota-borda:#f0e6c8;
   --serif:'Playfair Display',Georgia,serif;
   --sans:'Roboto',system-ui,-apple-system,sans-serif;
+  --foco:#232e6a;      /* anel de foco escuro — aparece sobre fundo claro */
+  --foco-halo:#ffffff; /* halo claro entre o elemento e o anel — aparece sobre fundo escuro */
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -201,6 +203,22 @@ section{padding:5.5rem 1.5rem}
 .busca-wrap input{width:100%;padding:.95rem 1.3rem .95rem 3rem;border:1.5px solid var(--borda);border-radius:999px;font-size:1rem;font-family:var(--sans);color:var(--texto);background:var(--superficie);outline:none;transition:border-color .3s,box-shadow .3s}
 .busca-wrap input:focus{border-color:var(--azul);box-shadow:0 0 0 4px rgba(1,112,185,.12)}
 .busca-wrap svg{position:absolute;left:1.1rem;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--texto-suave);fill:none;stroke-width:2;stroke-linecap:round}
+
+/* ---------- Foco visível (navegação por teclado) ----------
+   Anel duplo: halo claro colado no elemento + anel escuro por fora.
+   Sobre fundo claro enxerga-se o anel escuro; sobre fundo escuro (hero,
+   cabeçalho, menu mobile) enxerga-se o halo. Funciona nos dois temas.       */
+.btn:focus-visible,
+nav.menu a:focus-visible,
+.card:focus-visible{
+  outline:3px solid var(--foco);
+  outline-offset:3px;
+  box-shadow:0 0 0 3px var(--foco-halo);
+}
+/* Combinações hover+foco: repetem a sombra própria do hover para não perdê-la */
+.btn-solido:hover:focus-visible{box-shadow:0 0 0 3px var(--foco-halo),0 12px 28px rgba(201,162,39,.4)}
+.btn-azul:hover:focus-visible{box-shadow:0 0 0 3px var(--foco-halo),0 12px 28px rgba(1,112,185,.35)}
+.card:hover:focus-visible{box-shadow:0 0 0 3px var(--foco-halo),0 18px 44px rgba(35,46,106,.13)}
 
 /* ---------- Perfis (párocos) ---------- */
 .perfil{display:grid;grid-template-columns:340px 1fr;gap:3rem;align-items:start;margin-bottom:4.5rem}
