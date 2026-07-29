@@ -1,5 +1,5 @@
 /* Service worker — cache básico para o site funcionar offline (horários etc.) */
-const CACHE = 'paroquia-sao-jose-v1';
+const CACHE = 'paroquia-sao-jose-v2';
 const NUCLEO = [
   './',
   './index.html',
@@ -13,6 +13,7 @@ const NUCLEO = [
   './paroquia/nossos-parocos.html',
   './paroquia/mensagem-do-paroco.html',
   './paroquia/padroeiro.html',
+  './paroquia/sao-jose-das-maos-piedosas.html',
   './paroquia/cursos.html',
   './paroquia/capela-nossa-senhora-de-fatima.html',
   './paroquia/livretos.html',

@@ -28,6 +28,7 @@
         { slug: 'nossos-parocos', rotulo: 'Nossos Párocos', href: 'paroquia/nossos-parocos.html' },
         { slug: 'mensagem-do-paroco', rotulo: 'Mensagem do Pároco', href: 'paroquia/mensagem-do-paroco.html' },
         { slug: 'padroeiro', rotulo: 'Padroeiro', href: 'paroquia/padroeiro.html' },
+        { slug: 'maos-piedosas', rotulo: 'São José das Mãos Piedosas', href: 'paroquia/sao-jose-das-maos-piedosas.html' },
         { slug: 'cursos', rotulo: 'Cursos', href: 'paroquia/cursos.html' },
         { slug: 'capela', rotulo: 'Capela N. Sra. de Fátima', href: 'paroquia/capela-nossa-senhora-de-fatima.html' },
         { slug: 'livretos', rotulo: 'Livretos', href: 'paroquia/livretos.html' }
