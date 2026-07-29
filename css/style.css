@@ -79,8 +79,6 @@ nav.menu a.ativo{background:rgba(255,255,255,.16)}
 
 /* Hero compacto das páginas internas */
 .pagina-hero{position:relative;color:#fff;text-align:center;padding:9.5rem 1.5rem 4.5rem;background:linear-gradient(135deg,var(--azul-escuro-2),var(--azul-escuro) 55%,#2c3a85);overflow:hidden}
-.pagina-hero::before{content:'';position:absolute;width:520px;height:520px;border-radius:50%;border:1px solid rgba(255,255,255,.08);top:-260px;right:-140px}
-.pagina-hero::after{content:'';position:absolute;width:340px;height:340px;border-radius:50%;border:1px solid rgba(255,255,255,.08);bottom:-200px;left:-100px}
 .pagina-hero h1{font-family:var(--serif);font-size:clamp(2.1rem,5vw,3.4rem);font-weight:700;margin:.8rem 0 .6rem;opacity:0;animation:subir .9s .3s forwards}
 .pagina-hero .selo{opacity:0;animation:subir .9s .1s forwards}
 .pagina-hero p.sub{max-width:640px;margin:0 auto;font-weight:300;opacity:0;animation:subir .9s .5s forwards}
