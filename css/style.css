@@ -78,7 +78,7 @@ nav.menu .submenu a:hover{background:var(--cinza-claro);color:var(--azul)}
 @keyframes flutuar{0%,100%{transform:rotate(45deg) translate(0,0)}50%{transform:rotate(45deg) translate(6px,6px)}}
 
 /* Hero compacto das páginas internas */
-.pagina-hero{position:relative;color:#fff;text-align:center;padding:9.5rem 1.5rem 4.5rem;background:linear-gradient(135deg,var(--azul-escuro-2),var(--azul-escuro) 55%,#2c3a85);overflow:hidden}
+.pagina-hero{position:relative;color:#fff;text-align:center;padding:9.5rem 1.5rem 4.5rem;background:linear-gradient(135deg,var(--azul-escuro-2),var(--azul-escuro) 55%,#2c3a85)}
 .pagina-hero h1{font-family:var(--serif);font-size:clamp(2.1rem,5vw,3.4rem);font-weight:700;margin:.8rem 0 .6rem;opacity:0;animation:subir .9s .3s forwards}
 .pagina-hero .selo{opacity:0;animation:subir .9s .1s forwards}
 .pagina-hero p.sub{max-width:640px;margin:0 auto;font-weight:300;opacity:0;animation:subir .9s .5s forwards}
@@ -262,7 +262,6 @@ nav.menu a:focus-visible,
 .revelar-esq.visivel,.revelar-dir.visivel{opacity:1;transform:translateX(0)}
 .atraso-1{transition-delay:.12s}
 .atraso-2{transition-delay:.24s}
-.atraso-3{transition-delay:.36s}
 
 /* ---------- Rodapé ---------- */
 footer.rodape{background:var(--azul-escuro);color:#fff;padding:4rem 1.5rem 0}
