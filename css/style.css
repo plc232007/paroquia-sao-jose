@@ -290,6 +290,10 @@ footer.rodape{background:var(--azul-escuro);color:#fff;padding:4rem 1.5rem 0}
   .tem-sub.expandido .submenu{display:block}
   nav.menu .submenu a{color:#fff;font-size:.95rem}
   nav.menu .submenu a:hover{background:rgba(255,255,255,.1);color:#fff}
+  /* revelação lateral vira vertical: o translateX empurrava 20px para fora
+     da viewport e só não aparecia por causa do overflow-x:hidden do body */
+  .revelar-esq,.revelar-dir{transform:translateY(28px)}
+  .revelar-esq.visivel,.revelar-dir.visivel{transform:none}
   .duas-colunas,.duas-colunas.invertido{grid-template-columns:1fr;gap:2.5rem}
   .duas-colunas .moldura{order:-1}
   .moldura::before{display:none}
