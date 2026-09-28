@@ -1,5 +1,5 @@
 /* Service worker — cache básico para o site funcionar offline (horários etc.) */
-const CACHE = 'paroquia-sao-jose-v2';
+const CACHE = 'paroquia-sao-jose-v3';
 const NUCLEO = [
   './',
   './index.html',
@@ -29,18 +29,29 @@ self.addEventListener('install', e => {
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
-      .then(chaves => Promise.all(chaves.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(chaves => Promise.all(chaves.filter(k => k.startsWith('paroquia-sao-jose-') && k !== CACHE).map(k => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('fetch', e => {
-  if (e.request.method !== 'GET' || !e.request.url.startsWith(self.location.origin)) return;
-  e.respondWith(
-    caches.match(e.request).then(res => res || fetch(e.request).then(resposta => {
-      const copia = resposta.clone();
-      caches.open(CACHE).then(c => c.put(e.request, copia));
+  const url = new URL(e.request.url);
+  if (e.request.method !== 'GET' || url.origin !== self.location.origin) return;
+  // Rede primeiro: uma visita online sempre recebe a versão atual.
+  e.respondWith((async () => {
+    const cache = await caches.open(CACHE);
+    try {
+      const resposta = await fetch(e.request);
+      if (resposta.ok) await cache.put(e.request, resposta.clone());
       return resposta;
-    }).catch(() => caches.match('./index.html')))
-  );
+    } catch {
+      const salva = await cache.match(e.request);
+      if (salva) return salva;
+      if (e.request.mode === 'navigate') return new Response(
+        '<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Sem conexão</title><h1>Você está sem conexão</h1><p>Esta página ainda não está disponível offline. Reconecte-se e tente novamente.</p></html>',
+        { status: 503, headers: { 'Content-Type': 'text/html; charset=utf-8' } }
+      );
+      return Response.error();
+    }
+  })());
 });

@@ -10,9 +10,10 @@
   const paginaAtual = document.body.dataset.pagina || '';
 
   /* ---------- Tema claro/escuro ---------- */
-  const temaSalvo = localStorage.getItem('tema');
+  let temaSalvo;
+  try { temaSalvo = localStorage.getItem('tema'); } catch { /* Armazenamento pode estar desativado. */ }
   const prefereEscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  let temaAtual = temaSalvo || (prefereEscuro ? 'escuro' : 'claro');
+  let temaAtual = ['claro', 'escuro'].includes(temaSalvo) ? temaSalvo : (prefereEscuro ? 'escuro' : 'claro');
   document.documentElement.dataset.tema = temaAtual;
 
   const ICONE_SOL = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
@@ -20,7 +21,7 @@
 
   /* ---------- Cabeçalho ---------- */
   const LINKS = [
-    { slug: 'home', rotulo: 'Home', href: 'index.html' },
+    { slug: 'home', rotulo: 'Início', href: 'index.html' },
     {
       slug: 'paroquia', rotulo: 'Paróquia', href: 'paroquia/nossa-historia.html',
       filhos: [
@@ -42,12 +43,13 @@
   ];
 
   function itemMenu(l) {
-    const ativo = (l.slug === paginaAtual || (l.filhos || []).some(f => f.slug === paginaAtual)) ? ' class="ativo"' : '';
+    const ativo = (l.slug === paginaAtual || (l.filhos || []).some(f => f.slug === paginaAtual)) ? ` class="ativo"${l.slug === paginaAtual ? ' aria-current="page"' : ''}` : '';
     if (!l.filhos) return `<li><a${ativo} href="${raiz}${l.href}">${l.rotulo}</a></li>`;
     return `<li class="tem-sub">
       <a${ativo} href="${raiz}${l.href}">${l.rotulo}</a>
-      <ul class="submenu">${l.filhos.map(f =>
-        `<li><a href="${raiz}${f.href}">${f.rotulo}</a></li>`).join('')}</ul>
+      <button class="submenu-btn" aria-label="Expandir páginas da paróquia" aria-expanded="false" aria-controls="submenuParoquia"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+      <ul class="submenu" id="submenuParoquia">${l.filhos.map(f =>
+        `<li><a${f.slug === paginaAtual ? ' aria-current="page"' : ''} href="${raiz}${f.href}">${f.rotulo}</a></li>`).join('')}</ul>
     </li>`;
   }
 
@@ -62,10 +64,10 @@
           <span class="brand-sub">Lúcio Costa · Guará-DF</span>
         </span>
       </a>
-      <nav class="menu" id="menuNav"><ul>${LINKS.map(itemMenu).join('')}</ul></nav>
+      <nav class="menu" id="menuNav" aria-label="Navegação principal"><ul>${LINKS.map(itemMenu).join('')}</ul></nav>
       <div style="display:flex;align-items:center">
         <button class="tema-btn" id="temaBtn" aria-label="Alternar tema claro/escuro">${temaAtual === 'escuro' ? ICONE_SOL : ICONE_LUA}</button>
-        <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">
+        <button class="menu-btn" id="menuBtn" aria-controls="menuNav" aria-label="Abrir menu" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
       </div>
@@ -96,9 +98,9 @@
         </div>
       </div>
       <div>
-        <h4>Navegação</h4>
+        <h2>Navegação</h2>
         <ul>
-          <li><a href="${raiz}index.html">Home</a></li>
+          <li><a href="${raiz}index.html">Início</a></li>
           <li><a href="${raiz}horarios.html">Horários</a></li>
           <li><a href="${raiz}pastorais.html">Pastorais</a></li>
           <li><a href="${raiz}eventos.html">Eventos</a></li>
@@ -106,7 +108,7 @@
         </ul>
       </div>
       <div>
-        <h4>A Paróquia</h4>
+        <h2>A Paróquia</h2>
         <ul>
           <li><a href="${raiz}paroquia/nossa-historia.html">Nossa História</a></li>
           <li><a href="${raiz}paroquia/nossos-parocos.html">Nossos Párocos</a></li>
@@ -116,7 +118,7 @@
         </ul>
       </div>
       <div>
-        <h4>Contato</h4>
+        <h2>Contato</h2>
         <ul>
           <li><a href="tel:+556135685027">(61) 3568-5027</a></li>
           <li><a href="https://api.whatsapp.com/send?1=pt_BR&phone=5561998587357" target="_blank" rel="noopener">(61) 9 9858-7357</a></li>
@@ -139,31 +141,36 @@
 
   const menuBtn = document.getElementById('menuBtn');
   const menuNav = document.getElementById('menuNav');
-  menuBtn.addEventListener('click', () => {
-    const aberto = menuNav.classList.toggle('aberto');
+  const mobile = window.matchMedia('(max-width: 940px)');
+  function definirMenu(aberto) {
+    menuNav.classList.toggle('aberto', aberto);
     menuBtn.classList.toggle('aberto', aberto);
-    menuBtn.setAttribute('aria-expanded', aberto);
+    menuBtn.setAttribute('aria-expanded', String(aberto));
+    menuBtn.setAttribute('aria-label', aberto ? 'Fechar menu' : 'Abrir menu');
+    menuNav.inert = mobile.matches && !aberto;
     document.body.style.overflow = aberto ? 'hidden' : '';
+  }
+  definirMenu(false);
+  menuBtn.addEventListener('click', () => definirMenu(!menuNav.classList.contains('aberto')));
+  mobile.addEventListener('change', () => definirMenu(false));
+  const subBtn = menuNav.querySelector('.submenu-btn');
+  subBtn.addEventListener('click', () => {
+    const aberto = subBtn.parentElement.classList.toggle('expandido');
+    subBtn.setAttribute('aria-expanded', String(aberto));
   });
-  // No mobile, o primeiro toque em "Paróquia" expande o submenu
-  menuNav.querySelectorAll('.tem-sub > a').forEach(a => {
-    a.addEventListener('click', e => {
-      if (window.matchMedia('(max-width: 940px)').matches) {
-        const li = a.parentElement;
-        if (!li.classList.contains('expandido')) {
-          e.preventDefault();
-          li.classList.add('expandido');
-        }
-      }
-    });
-  });
-  menuNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    if (!a.parentElement.closest('.tem-sub') || a.closest('.submenu')) {
-      menuNav.classList.remove('aberto');
-      menuBtn.classList.remove('aberto');
-      document.body.style.overflow = '';
+  menuNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => definirMenu(false)));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && menuNav.classList.contains('aberto')) {
+      definirMenu(false);
+      menuBtn.focus();
     }
-  }));
+    if (e.key === 'Tab' && mobile.matches && menuNav.classList.contains('aberto')) {
+      const items = [...menuNav.querySelectorAll('a, button'), menuBtn].filter(el => el.getClientRects().length);
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
 
   /* ---------- Parallax do hero (quando existir) ---------- */
   const heroBg = document.querySelector('.hero-bg');
@@ -176,6 +183,7 @@
   }
 
   /* ---------- Revelar elementos ao rolar ---------- */
+  if ('IntersectionObserver' in window && !reduzMovimento) {
   const observador = new IntersectionObserver(entradas => {
     entradas.forEach(e => {
       if (e.isIntersecting) {
@@ -184,18 +192,27 @@
       }
     });
   }, { threshold: 0.12 });
-  document.querySelectorAll('.revelar, .revelar-esq, .revelar-dir').forEach(el => observador.observe(el));
+  document.querySelectorAll('.revelar, .revelar-esq, .revelar-dir').forEach(el => { el.classList.add('aguarda-revelacao'); observador.observe(el); });
+  }
 
   /* ---------- Busca de pastorais (quando existir) ---------- */
   const busca = document.getElementById('buscaPastoral');
   if (busca) {
     const itens = Array.from(document.querySelectorAll('.acordeao'));
+    const normalizar = texto => texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const resultado = document.createElement('p');
+    resultado.className = 'resultado-busca';
+    resultado.setAttribute('role', 'status');
+    busca.closest('.busca-wrap').after(resultado);
     busca.addEventListener('input', () => {
-      const termo = busca.value.trim().toLowerCase();
+      const termo = normalizar(busca.value.trim());
+      let total = 0;
       itens.forEach(d => {
-        const combina = d.textContent.toLowerCase().includes(termo);
-        d.style.display = combina ? '' : 'none';
+        const combina = normalizar(d.textContent).includes(termo);
+        d.hidden = !combina;
+        if (combina) total++;
       });
+      resultado.textContent = !termo ? '' : total ? `${total} resultado${total === 1 ? '' : 's'} encontrado${total === 1 ? '' : 's'}.` : 'Nenhuma pastoral encontrada. Tente outro nome ou atividade.';
     });
   }
 
@@ -204,7 +221,7 @@
   temaBtn.addEventListener('click', () => {
     temaAtual = temaAtual === 'escuro' ? 'claro' : 'escuro';
     document.documentElement.dataset.tema = temaAtual;
-    localStorage.setItem('tema', temaAtual);
+    try { localStorage.setItem('tema', temaAtual); } catch { /* Tema continua funcionando nesta página. */ }
     temaBtn.innerHTML = temaAtual === 'escuro' ? ICONE_SOL : ICONE_LUA;
   });
 
@@ -231,7 +248,7 @@
   if (!reduzMovimento) {
     document.addEventListener('click', e => {
       const a = e.target.closest('a');
-      if (!a || e.ctrlKey || e.metaKey || e.shiftKey || a.target === '_blank') return;
+      if (!a || e.defaultPrevented || a.hasAttribute('download') || e.altKey || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || a.target === '_blank') return;
       const href = a.getAttribute('href') || '';
       if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
       e.preventDefault();
@@ -244,7 +261,7 @@
 
   /* ---------- Contadores animados ---------- */
   const contadores = document.querySelectorAll('[data-contar]');
-  if (contadores.length) {
+  if (contadores.length && 'IntersectionObserver' in window) {
     const obsContador = new IntersectionObserver(entradas => {
       entradas.forEach(entrada => {
         if (!entrada.isIntersecting) return;
@@ -270,22 +287,35 @@
   /* ---------- Lightbox ---------- */
   const lb = document.createElement('div');
   lb.id = 'lightbox';
+  lb.setAttribute('role', 'dialog');
+  lb.setAttribute('aria-modal', 'true');
+  lb.setAttribute('aria-label', 'Visualização da imagem');
+  lb.inert = true;
+  let focoAnterior;
   lb.innerHTML = '<button class="fechar-lb" aria-label="Fechar">×</button><img alt=""><p class="legenda-lb"></p>';
   document.body.appendChild(lb);
   const lbImg = lb.querySelector('img');
   const lbLegenda = lb.querySelector('.legenda-lb');
 
   function abrirLightbox(src, legenda) {
+    focoAnterior = document.activeElement;
+    lb.inert = false;
     lbImg.src = src;
+    lbImg.alt = legenda || '';
     lbLegenda.textContent = legenda || '';
     lb.classList.add('aberto');
+    lb.querySelector('button').focus();
     document.body.style.overflow = 'hidden';
   }
   function fecharLightbox() {
+    if (!lb.classList.contains('aberto')) return;
     lb.classList.remove('aberto');
+    lb.inert = true;
+    focoAnterior?.focus();
     document.body.style.overflow = '';
   }
   lb.addEventListener('click', fecharLightbox);
+  lb.addEventListener('keydown', e => { if (e.key === 'Tab') { e.preventDefault(); lb.querySelector('button').focus(); } });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharLightbox(); });
 
   document.querySelectorAll('a.lightbox').forEach(a => {
@@ -296,7 +326,11 @@
     });
   });
   document.querySelectorAll('.moldura img, .perfil-foto img, .acordeao .conteudo img').forEach(img => {
+    img.tabIndex = 0;
+    img.setAttribute('role', 'button');
+    img.setAttribute('aria-label', `Ampliar imagem: ${img.alt}`);
     img.addEventListener('click', () => abrirLightbox(img.src, img.alt));
+    img.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrirLightbox(img.src, img.alt); } });
   });
 
   /* ---------- Próxima celebração (home) ---------- */
@@ -315,22 +349,28 @@
       [6, 17, 0, 'Santa Missa', 'Capela N. Sra. de Fátima'],
       [6, 19, 0, 'Santa Missa', 'Paróquia São José']
     ];
-    const agora = new Date();
+    function atualizarCelebracao() {
+    // Calendário da paróquia, independente do fuso do visitante.
+    const partes = new Intl.DateTimeFormat('sv-SE', { timeZone: 'America/Sao_Paulo', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' }).format(new Date());
+    const agora = new Date(partes.replace(' ', 'T') + 'Z');
     let melhor = null;
     for (const [dia, h, m, titulo, local] of AGENDA) {
       const data = new Date(agora);
-      data.setDate(agora.getDate() + ((dia - agora.getDay() + 7) % 7));
-      data.setHours(h, m, 0, 0);
-      if (data <= agora) data.setDate(data.getDate() + 7);
+      data.setUTCDate(agora.getUTCDate() + ((dia - agora.getUTCDay() + 7) % 7));
+      data.setUTCHours(h, m, 0, 0);
+      if (data <= agora) data.setUTCDate(data.getUTCDate() + 7);
       if (!melhor || data < melhor.data) melhor = { data, titulo, local };
     }
     const DIAS = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'];
-    const diasAte = Math.floor((melhor.data - new Date(agora.getFullYear(), agora.getMonth(), agora.getDate())) / 86400000);
-    const quando = diasAte === 0 ? 'Hoje' : diasAte === 1 ? 'Amanhã' : DIAS[melhor.data.getDay()].charAt(0).toUpperCase() + DIAS[melhor.data.getDay()].slice(1);
-    const hora = String(melhor.data.getHours()).padStart(2, '0') + 'h' + String(melhor.data.getMinutes()).padStart(2, '0');
+    const diasAte = Math.floor((melhor.data - Date.UTC(agora.getUTCFullYear(), agora.getUTCMonth(), agora.getUTCDate())) / 86400000);
+    const quando = diasAte === 0 ? 'Hoje' : diasAte === 1 ? 'Amanhã' : DIAS[melhor.data.getUTCDay()].charAt(0).toUpperCase() + DIAS[melhor.data.getUTCDay()].slice(1);
+    const hora = String(melhor.data.getUTCHours()).padStart(2, '0') + 'h' + String(melhor.data.getUTCMinutes()).padStart(2, '0');
     pm.innerHTML = `<span class="rotulo-pm">Próxima celebração</span>
       <span class="valor-pm">${quando} às ${hora} · ${melhor.titulo}</span>
       <span class="local-pm">${melhor.local}</span>`;
+    }
+    atualizarCelebracao();
+    setInterval(atualizarCelebracao, 60000);
   }
 
   /* ---------- Service worker (PWA, só quando hospedado) ---------- */

@@ -54,3 +54,17 @@ Links de formulários (Google Forms), PDFs dos livretos e artigos do blog aponta
 para os endereços originais. E-mails que estavam ofuscados pelo Cloudflare foram
 decodificados: `secretaria@paroquiasaojose.org`, `catequesesaojoselc@gmail.com`
 (PIX catequese) e `pastoralfamiliar.psjlc@gmail.com` (PIX curso de noivos).
+
+## Revisão de interface
+
+A página inicial reúne acessos rápidos para horários, pastorais e contato.
+As animações respeitam a preferência por movimento reduzido; os conteúdos
+continuam visíveis quando JavaScript não está disponível. Menu móvel e
+visualização de imagens oferecem controles de teclado. A busca de pastorais
+ignora acentos e informa quando não há resultados. A próxima celebração usa
+o fuso de Brasília e é atualizada a cada minuto.
+
+O service worker prioriza a rede e usa páginas já armazenadas quando offline.
+Para conferir alterações, execute `python3 -m http.server 4173` e abra
+`http://localhost:4173`. A revisão incluiu as 15 páginas em 390 e 1280 pixels,
+links e recursos locais, erros de JavaScript e os principais controles.

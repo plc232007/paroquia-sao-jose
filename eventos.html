@@ -23,7 +23,9 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-raiz="./" data-pagina="eventos">
+<a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
 <div id="menu-site"></div>
+<main id="conteudo" tabindex="-1">
 
 <section class="pagina-hero">
   <span class="selo">Participe conosco</span>
@@ -40,11 +42,11 @@
     </div>
     <div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));max-width:900px;margin:0 auto">
       <a class="card-foto revelar lightbox" href="assets/img/2-Evento-Arraia-SaoJose-1024x1024-1.webp" aria-label="Ampliar cartaz do Arraiá de São José">
-        <img src="assets/img/2-Evento-Arraia-SaoJose-1024x1024-1.webp" alt="Arraiá de São José" style="aspect-ratio:1/1">
+        <img loading="lazy" decoding="async" src="assets/img/2-Evento-Arraia-SaoJose-1024x1024-1.webp" alt="Arraiá de São José" style="aspect-ratio:1/1">
         <span class="legenda"><small>Festa junina da comunidade</small>Arraiá de São José</span>
       </a>
       <a class="card-foto revelar atraso-1 lightbox" href="assets/img/3-Evento-FeiraBiblica-1024x1024-1.webp" aria-label="Ampliar cartaz da Feira Bíblica">
-        <img src="assets/img/3-Evento-FeiraBiblica-1024x1024-1.webp" alt="Feira Bíblica" style="aspect-ratio:1/1">
+        <img loading="lazy" decoding="async" src="assets/img/3-Evento-FeiraBiblica-1024x1024-1.webp" alt="Feira Bíblica" style="aspect-ratio:1/1">
         <span class="legenda"><small>Palavra de Deus para todos</small>Feira Bíblica</span>
       </a>
     </div>
@@ -55,6 +57,7 @@
   </div>
 </section>
 
+</main>
 <div id="rodape-site"></div>
 <script src="js/main.js"></script>
 </body>
